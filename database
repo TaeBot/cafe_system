@@ -1,8 +1,9 @@
-mende hensem
+/* 1. Create a database for your system.*/
 CREATE DATABASE cafe_system;
-use cafe_system;
+USE cafe_system;
 
-create table customer(
+/* 2. SQL statements to create the tables from your relational database schema.*/
+CREATE TABLE customer(
 customerID int,
 customer_name varchar(50),
 customer_phoneNo varchar(11),
@@ -10,49 +11,143 @@ email varchar(50),
 PRIMARY KEY(customerID)
 );
 
-create table menu(
-menuID int, 
-menu_name varchar(20),
-price float,
-image varchar(50),
-menuType varchar(20),
-ingredient varchar(200),
-menuStatus varchar(10),
+CREATE TABLE menu(
+menuID varchar(5), 
+menu_name varchar(50),
+price_in_RM float,
+image varchar(20),
+menuType varchar(25),
+descriptions varchar(100),
+menuStatus varchar(20),
 PRIMARY KEY (menuID)
 );
 
-create table cafe(
-cafeID int,
+CREATE TABLE cafe(
+cafeID varchar(5),
 cafe_name varchar(20),
 cafe_phoneNo varchar(11),
-menuID int,
+menuID varchar(5),
 PRIMARY KEY (cafeID),
 FOREIGN KEY (menuID) REFERENCES menu(menuID)
 );
 
-create table orders(
-orderID int,
-order_date date,
-order_time time,
+CREATE TABLE orders(
+orderID varchar(5),
+order_date varchar(15),
+order_time varchar(10),
 quantity int,
-totalamount float,
-menuID int,
+totalamount varchar(10),
+menuID varchar(5),
 customerID int,
-cafeID int,
+cafeID varchar(5),
 PRIMARY KEY(orderID),
 FOREIGN KEY (menuID) REFERENCES menu(menuID),
 FOREIGN KEY (customerID) REFERENCES customer(customerID),
 FOREIGN KEY (cafeID) REFERENCES cafe(cafeID)
 );
 
-create table payment(
-paymentID int,
+CREATE TABLE payment(
+paymentID varchar(10),
 payment_method varchar(20),
-payment_amount float,
-payment_date date,
-payment_time time,
+payment_amount varchar(10),
+payment_date varchar(15),
+payment_time varchar(10),
 receipt varchar(100),
-orderID int,
+orderID varchar(5),
 PRIMARY KEY (paymentID),
 FOREIGN KEY (orderID) REFERENCES orders(orderID)
 );
+
+/* 3. SQL statements to insert a minimum of 10 rows of data into each table.*/
+INSERT INTO customer (customerID, customer_name ,customer_phoneNo,email)
+VALUES                                                                                                                         
+('1211', 'Aliya Batrisya','01571338211','aliya@gmail.com'),
+('1212', 'Dahlia Qistina','01761552176','dahlia@gmail.com'),
+('1230', 'Farhan Uwais','01141577682','farhan@gmail.com'),
+('1341', 'Affan Yusuf','01251762349','affan@gmail.com'),
+('1490', 'Aqil Muayyad','01179062151','aqil@gmail.com'),
+('5759', 'Zulfa Amirah','01341710291','zulfa@gmail.com'),
+('3031', 'Muhd Haris','01893916044','haris@gmail.com'),
+('4082', 'Eshal Maisara','01979567671','eshal@gmail.com'),
+('4173', 'Aisha Luna','01937135022','luna@gmail.com'),
+('3299', 'Kasyaf Aiman','01381863607','kasyaf@gmail.com');
+
+INSERT INTO menu(menuID, menu_name, price_in_RM, image, menuType, descriptions, menuStatus)
+VALUES
+('NG04', 'Nasi Goreng Kampung',4.50,'ngk.jpg','nasi goreng','Not suitable for those with shellfish or nut allergies.','Available'),
+('NG21', 'Nasi Goreng Pattaya',5.50,'ngp.jpg','nasi goreng','Not suitable for those with shellfish, peanuts or tree nut allergies.','Available'),
+('MG36', 'Mee Kungfu',6.50,'mgk.jpg','mee goreng','Not suitable for those with peanuts, tree nut or soy allergies.','Available'),
+('MG33', 'Mee Hailam',5.00,'mgh.jpg','mee goreng','Not suitable for those with peanuts, tree nut or soy allergies.','Available'),
+('CKT42', 'Keow Teow Ladna',5.00,'ktl.jpg','char keow teow','Not suitable for those with peanuts, tree nut or soy allergies.','Available'),
+('TY43', 'Tomyam',6.00,'ty.jpg','tomyam','Not suitable for those with shellfish, peanuts, tree nut, gluten allergies or intolerances.','Available'),
+('S52', 'Sup Cendawan',5.50,'sc.jpg','sup','Not suitable for those with mushroom allergies.','Available'),
+('S57', 'Sup Sayur',5.00,'ss.jpg','sup','Does not contain any known common allergens.','Available'),
+('NG25', 'Nasi Goreng USA',7.00,'ngusa.jpg','nasi goreng','Not suitable for those with peanuts, tree nut, soy or gluten allergies or intolerances.','Available'),
+('MG32', 'Mee Goreng Mamak',4.50,'mgm.jpg','mee goreng','Not suitable for those with peanuts, tree nut or soy allergies.','Available');
+
+INSERT INTO cafe(cafeID, cafe_name, cafe_phoneNo, menuID)
+VALUES  
+('ND-1', 'Nelda', '01164357383', 'NG04'),
+('WN-2', 'Wani',  '0178850966',  'NG21'),
+('AM-3', 'Aneka Mee', '0148475947', 'MG36'),
+('SL-4', 'Selera Timur', '0198446604', 'MG33'),
+('WT-5', 'Waty',  '0121866392',  'CKT42'),
+('TY-6', 'Tomye',  '0145586465',  'TY43'),
+('KT-7', 'Koey Teow',  '0112710332',  'S52'),
+('SP-8', 'Sups', '0179535647', 'S57'),
+('WS-9', 'Western',  '0198770201',  'NG25'),
+('MS-10', 'ManSalwa', '0119255493', 'MG32');
+
+INSERT INTO orders(orderID, order_date, order_time, quantity, totalamount, menuID, customerID, cafeID)
+VALUES
+('Q001', '02/01/2023','7.00 PM','2','RM 9.00','NG04',1211,'ND-1'),
+('Q002', '02/01/2023','7.45 PM','1','RM 5.50','NG21',1212,'WN-2'),
+('Q003', '02/01/2023','9.10 PM','3','RM 19.50','MG36',1230,'AM-3'),
+('Q004', '05/01/2023','8.00 PM','2','RM 10.00','MG33',1341,'SL-4'),
+('Q005', '05/01/2023','7.20 PM','1','RM 5.00','CKT42',1490,'WT-5'),
+('Q006', '10/01/2023','6.30 PM','1','RM 6.00','TY43',5759,'TY-6'),
+('Q007', '10/01/2023','8.40 PM','4','RM 22.00','S52',3031,'KT-7'),
+('Q008', '11/01/2023','6.38 PM','2','RM 10.00','S57',4082,'SP-8'),
+('Q009', '13/01/2023','7.30 PM','1','RM 7.00','NG25',4173,'WS-9'),
+('Q010', '15/01/2023','8.07 PM','3','RM 13.50','MG32',3299,'MS-10');
+
+INSERT INTO payment(paymentID, payment_method, payment_amount, payment_date, payment_time, receipt, orderID)
+VALUES                                                                                                                                                             
+('8211884', 'Cash','RM 9.00','02/01/2023','7.15 PM','No Receipt','Q001'),
+('8211885','Cash','RM 5.50','02/01/2023','8.00 PM','Receipt','Q002'),
+('8211886','Online Banking','RM 19.50','02/01/2023','9.25 PM','No Receipt','Q003'),
+('8211887','TNG eWallet','RM 10.00','05/01/2023','8.15 PM','Receipt','Q004'),
+('8211888', 'DuitNow','RM 5.00','05/01/2023','7.35 PM','Receipt','Q005'),
+('8211889', 'Cash','RM 6.00','10/01/2023','6.45 PM','No Receipt','Q006'),
+('8211890', 'Online Banking','RM 22.00','10/01/2023','8.55 PM','No Receipt','Q007'),
+('8211891', 'TNG eWallet','RM 10.00','11/01/2023','6.53 PM','Receipt','Q008'),
+('8211892', 'TNG eWallet','RM 7.00','13/01/2023','7.45 PM','Receipt','Q009'),
+('8211893', 'DuitNow','RM 13.50','15/01/2023','8.22 PM','Receipt','Q010');
+
+/* 4. SQL CODE TO DISPLAY ALL RECORD FROM EVERY TABLES*/
+SELECT * FROM customer;
+SELECT * FROM menu;
+SELECT * FROM cafe;
+SELECT * FROM orders;
+SELECT * FROM payment;
+
+/* 5. SELECT statement to demonstrate the use of DISTINCT code*/
+SELECT customer_phoneNo FROM customer;
+SELECT menu_name FROM menu;
+SELECT cafe_name FROM cafe;
+SELECT totalamount FROM orders;
+SELECT payment_method FROM payment;
+
+/* 6. SELECT statement to demonstrate search condition based on pattern matching */
+SELECT menuID, menu_name, price_in_RM, image, menuType, descriptions, menuStatus
+FROM menu
+WHERE menuType LIKE '%nasi goreng%';
+
+/* 7. SELECT statement to demonstrate the use of MIN, MAX and AVG.*/
+SELECT MIN(price_in_RM) AS minPrice, 
+MAX(price_in_RM) AS maxPrice,
+AVG(price_in_RM) AS avgPrice
+FROM menu;
+
+
+
